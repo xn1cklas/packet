@@ -3,58 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Package Picker</title>
+    <title>Packet</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="shell">
       <header>
-        <h1>Package Picker</h1>
+        <h1>Packet</h1>
         <output id="status" aria-live="polite"></output>
       </header>
 
       <form id="settings-form">
-        <label class="toggle">
-          Enabled
-          <input id="enabled" type="checkbox" />
-        </label>
-
         <label>
           Package manager
           <select id="preset-id"></select>
         </label>
-
-        <fieldset id="custom-fields" hidden>
-          <legend>Custom</legend>
-          <label>
-            Label
-            <input id="custom-label" autocomplete="off" />
-          </label>
-          <label>
-            Install
-            <input id="custom-install-command" autocomplete="off" />
-          </label>
-          <label>
-            Add
-            <input id="custom-add-command" autocomplete="off" />
-          </label>
-          <label>
-            Run package
-            <input id="custom-dlx-command" autocomplete="off" />
-          </label>
-          <label>
-            Create
-            <input id="custom-create-command" autocomplete="off" />
-          </label>
-          <label>
-            Clean install
-            <input id="custom-ci-command" autocomplete="off" />
-          </label>
-        </fieldset>
-
-        <div class="actions">
-          <button id="reset" type="button">Reset</button>
-        </div>
       </form>
     </main>
     <script src="popup.js"></script>

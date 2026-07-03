@@ -1,6 +1,6 @@
-# Package Picker
+# Packet
 
-Package Picker is a Manifest V3 Chrome extension that rewrites visible `npm` and `npx` command snippets to the user's preferred Node.js package manager.
+Packet is a Manifest V3 Chrome extension that rewrites visible `npm` and `npx` command snippets to the user's preferred Node.js package manager.
 
 Supported presets:
 
@@ -10,7 +10,6 @@ Supported presets:
 - bun
 - nub
 - aube
-- custom install and runner command templates
 
 ## Development
 
@@ -38,3 +37,7 @@ To force an installed browser channel, run with `PLAYWRIGHT_CHROME_CHANNEL=chrom
 - No remote code, inline scripts, or broad API permissions beyond `storage` and the content-script page matches required for page rewriting.
 - Text nodes are re-rendered from their original text so changing package managers does not stack replacements.
 - A `MutationObserver` handles client-side navigation and dynamically rendered documentation.
+
+## License
+
+MIT

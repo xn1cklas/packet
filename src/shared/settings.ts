@@ -1,14 +1,7 @@
 import { getPreset, packageManagerPresets } from "./package-managers";
 
 export type PackagePickerSettings = {
-  enabled: boolean;
   presetId: string;
-  customLabel: string;
-  customInstallCommand: string;
-  customAddCommand: string;
-  customDlxCommand: string;
-  customCreateCommand: string;
-  customCiCommand: string;
 };
 
 export type EffectivePackageManager = {
@@ -21,16 +14,10 @@ export type EffectivePackageManager = {
 };
 
 export const storageKey = "packagePickerSettings";
+export const disabledPresetId = "disabled";
 
 export const defaultSettings: PackagePickerSettings = {
-  enabled: true,
-  presetId: "pnpm",
-  customLabel: "custom",
-  customInstallCommand: "custom install",
-  customAddCommand: "custom add",
-  customDlxCommand: "customx",
-  customCreateCommand: "custom create",
-  customCiCommand: "custom ci"
+  presetId: "pnpm"
 };
 
 export function normalizeSettings(value: unknown): PackagePickerSettings {
@@ -38,56 +25,38 @@ export function normalizeSettings(value: unknown): PackagePickerSettings {
     return { ...defaultSettings };
   }
 
+  if (value.enabled === false) {
+    return { presetId: disabledPresetId };
+  }
+
   return {
-    enabled: typeof value.enabled === "boolean" ? value.enabled : defaultSettings.enabled,
-    presetId: normalizePresetId(value.presetId),
-    customLabel: normalizeCommandPart(value.customLabel, defaultSettings.customLabel),
-    customInstallCommand: normalizeCommandPart(
-      value.customInstallCommand,
-      defaultSettings.customInstallCommand
-    ),
-    customAddCommand: normalizeCommandPart(
-      value.customAddCommand,
-      defaultSettings.customAddCommand
-    ),
-    customDlxCommand: normalizeCommandPart(
-      value.customDlxCommand,
-      defaultSettings.customDlxCommand
-    ),
-    customCreateCommand: normalizeCommandPart(
-      value.customCreateCommand,
-      defaultSettings.customCreateCommand
-    ),
-    customCiCommand: normalizeCommandPart(value.customCiCommand, defaultSettings.customCiCommand)
+    presetId: normalizePresetId(value.presetId)
   };
 }
 
 export function resolvePackageManager(settings: PackagePickerSettings): EffectivePackageManager {
   const preset = getPreset(settings.presetId);
 
-  if (preset) {
-    return {
-      label: preset.label,
-      installCommand: preset.installCommand,
-      addCommand: preset.addCommand,
-      dlxCommand: preset.dlxCommand,
-      createCommand: preset.createCommand,
-      ciCommand: preset.ciCommand
-    };
+  if (!preset) {
+    return resolvePackageManager(defaultSettings);
   }
 
   return {
-    label: settings.customLabel,
-    installCommand: settings.customInstallCommand,
-    addCommand: settings.customAddCommand,
-    dlxCommand: settings.customDlxCommand,
-    createCommand: settings.customCreateCommand,
-    ciCommand: settings.customCiCommand
+    label: preset.label,
+    installCommand: preset.installCommand,
+    addCommand: preset.addCommand,
+    dlxCommand: preset.dlxCommand,
+    createCommand: preset.createCommand,
+    ciCommand: preset.ciCommand
   };
 }
 
+export function isRewriteEnabled(settings: PackagePickerSettings): boolean {
+  return settings.presetId !== disabledPresetId;
+}
+
 export function presetIds(): string[] {
-  return [...packageManagerPresets.map((preset) => preset.id), "custom"];
+  return [disabledPresetId, ...packageManagerPresets.map((preset) => preset.id)];
 }
 
 function normalizePresetId(value: unknown): string {
@@ -96,15 +65,6 @@ function normalizePresetId(value: unknown): string {
   }
 
   return presetIds().includes(value) ? value : defaultSettings.presetId;
-}
-
-function normalizeCommandPart(value: unknown, fallback: string): string {
-  if (typeof value !== "string") {
-    return fallback;
-  }
-
-  const normalized = value.trim().replace(/\s+/g, " ");
-  return normalized.length > 0 ? normalized : fallback;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

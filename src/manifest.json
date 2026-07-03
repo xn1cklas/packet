@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Package Picker",
+  "name": "Packet",
   "version": "0.1.0",
   "description": "Rewrites npm and npx snippets to your preferred Node.js package manager.",
   "minimum_chrome_version": "116",
   "permissions": ["storage"],
   "action": {
-    "default_title": "Package Picker",
+    "default_title": "Packet",
     "default_popup": "popup.html"
   },
   "options_ui": {

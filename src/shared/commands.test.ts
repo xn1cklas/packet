@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { defaultSettings, type PackagePickerSettings } from "./settings";
+import { defaultSettings, disabledPresetId, type PackagePickerSettings } from "./settings";
 import { rewriteShellSnippet } from "./commands";
 
 describe("rewriteShellSnippet", () => {
@@ -56,27 +56,9 @@ describe("rewriteShellSnippet", () => {
     );
   });
 
-  it("supports named custom-style presets like nub and aube", () => {
+  it("supports newer bundled presets like nub and aube", () => {
     expect(rewriteShellSnippet("npm install left-pad", manager("nub"))).toBe("nub add left-pad");
     expect(rewriteShellSnippet("npx cowsay hello", manager("aube"))).toBe("aubx cowsay hello");
-  });
-
-  it("supports explicit custom templates", () => {
-    const settings: PackagePickerSettings = {
-      ...defaultSettings,
-      presetId: "custom",
-      customLabel: "acme",
-      customInstallCommand: "acme install",
-      customAddCommand: "acme put",
-      customDlxCommand: "acme runpkg",
-      customCreateCommand: "acme create",
-      customCiCommand: "acme restore --locked"
-    };
-
-    expect(rewriteShellSnippet("npm install @scope/pkg", settings)).toBe("acme put @scope/pkg");
-    expect(rewriteShellSnippet("npx @scope/tool --help", settings)).toBe(
-      "acme runpkg @scope/tool --help"
-    );
   });
 
   it("does not rewrite prose or unsupported npm commands", () => {
@@ -87,7 +69,7 @@ describe("rewriteShellSnippet", () => {
   });
 
   it("can be disabled", () => {
-    expect(rewriteShellSnippet("npm install next", { ...defaultSettings, enabled: false })).toBe(
+    expect(rewriteShellSnippet("npm install next", manager(disabledPresetId))).toBe(
       "npm install next"
     );
   });

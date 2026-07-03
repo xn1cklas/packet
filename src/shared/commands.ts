@@ -1,4 +1,4 @@
-import { resolvePackageManager, type PackagePickerSettings } from "./settings";
+import { isRewriteEnabled, resolvePackageManager, type PackagePickerSettings } from "./settings";
 
 const commandLinePattern =
   /^(?<prefix>\s*(?:(?:[$>#]|❯)\s*)?)(?<sudo>sudo\s+)?(?<command>npx|npm)(?<tail>(?:\s+[^\r\n]*)?)$/u;
@@ -13,7 +13,7 @@ type NpmCommand =
   | { kind: "create"; args: string[] };
 
 export function rewriteShellSnippet(text: string, settings: PackagePickerSettings): string {
-  if (!settings.enabled || (!text.includes("npm") && !text.includes("npx"))) {
+  if (!isRewriteEnabled(settings) || (!text.includes("npm") && !text.includes("npx"))) {
     return text;
   }
 

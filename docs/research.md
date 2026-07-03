@@ -28,4 +28,4 @@ The bundled presets intentionally cover the established Node package-manager set
 | nub    | `nub add <pkg>`     | `nub install`        | `nubx <pkg>`                  | Nub documents `nubx` and a pnpm-compatible package manager powered by Aube.                      |
 | aube   | `aube add <pkg>`    | `aube install`       | `aubx <pkg>`                  | Aube installation docs wire up `aube`, `aubr`, and `aubx`; `aubx` is the one-off package runner. |
 
-Deno is increasingly package-manager-like for npm and JSR packages, but it is not bundled as a preset here because its `npx` equivalent is not a simple drop-in command rewrite for Node documentation examples. Users can still model it through the custom template fields if desired.
+Deno is increasingly package-manager-like for npm and JSR packages, but it is not bundled as a preset here because its `npx` equivalent is not a simple drop-in command rewrite for Node documentation examples.

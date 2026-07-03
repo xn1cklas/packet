@@ -3,7 +3,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
-test.describe("Package Picker extension smoke", () => {
+test.describe("Packet extension smoke", () => {
   let context: BrowserContext | undefined;
   let userDataDir: string | undefined;
 
@@ -19,7 +19,7 @@ test.describe("Package Picker extension smoke", () => {
   });
 
   test("rewrites npm install and npx snippets on Next.js documentation", async () => {
-    const directory = await mkdtemp(join(tmpdir(), "package-picker-"));
+    const directory = await mkdtemp(join(tmpdir(), "packet-"));
     userDataDir = directory;
     context = await launchChromeWithExtension(directory);
 

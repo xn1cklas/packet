@@ -1,9 +1,17 @@
 {
-  "name": "package-picker",
+  "name": "packet",
   "version": "0.1.0",
-  "private": true,
   "description": "Chrome extension that rewrites npm and npx snippets to a preferred Node.js package manager.",
+  "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xn1cklas/packet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xn1cklas/packet/issues"
+  },
+  "homepage": "https://github.com/xn1cklas/packet#readme",
   "scripts": {
     "build": "node scripts/build.mjs",
     "clean": "node scripts/clean.mjs",
