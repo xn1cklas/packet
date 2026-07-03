@@ -62,6 +62,7 @@ async function persist(elements: SettingsFormElements): Promise<void> {
 
   try {
     await writeSettings(settings);
+    await refreshActiveTab().catch(() => undefined);
     setStatus(elements.status, "Saved");
   } catch (error) {
     setStatus(elements.status, error instanceof Error ? error.message : "Unable to save");
@@ -81,6 +82,22 @@ function setStatus(element: HTMLElement, text: string): void {
       element.textContent = "";
     }
   }, 1800);
+}
+
+async function refreshActiveTab(): Promise<void> {
+  if (!chrome.tabs || !chrome.scripting) {
+    return;
+  }
+
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab?.id) {
+    return;
+  }
+
+  await chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ["content.js"]
+  });
 }
 
 function requiredElement<T extends typeof HTMLElement>(

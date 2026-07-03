@@ -60,6 +60,11 @@ export class DomCommandRewriter {
       return NodeFilter.FILTER_REJECT;
     }
 
+    const record = this.#records.get(node);
+    if (record && node.data === record.rendered) {
+      return NodeFilter.FILTER_ACCEPT;
+    }
+
     if (!commandNeedle.test(node.data)) {
       return NodeFilter.FILTER_REJECT;
     }
@@ -103,13 +108,17 @@ export class DomCommandRewriter {
       return;
     }
 
+    const record = this.#elementRecords.get(element);
     const current = element.textContent ?? "";
-    if (!commandNeedle.test(current)) {
+    if (!record && !commandNeedle.test(current)) {
       return;
     }
 
-    const record = this.#elementRecords.get(element);
     const original = record && current === record.rendered ? record.original : current;
+    if (!commandNeedle.test(original)) {
+      return;
+    }
+
     const rendered = rewriteShellSnippet(original, this.#settings);
 
     if (rendered !== current) {

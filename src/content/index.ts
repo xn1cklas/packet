@@ -2,13 +2,33 @@ import { DomCommandRewriter } from "./dom-rewriter";
 import { readSettings } from "../shared/storage";
 import { normalizeSettings, storageKey } from "../shared/settings";
 
+type PacketContentState = {
+  refresh?: () => void;
+  started?: boolean;
+};
+
+const packetGlobal = globalThis as unknown as {
+  __packetContentState?: PacketContentState;
+};
+const packetContentState = (packetGlobal.__packetContentState ??= {});
 let scheduled = false;
 
-void start();
+if (packetContentState.started) {
+  packetContentState.refresh?.();
+} else {
+  packetContentState.started = true;
+  void start(packetContentState);
+}
 
-async function start(): Promise<void> {
+async function start(state: PacketContentState): Promise<void> {
   const startup = await readSettings();
   const rewriter = new DomCommandRewriter(startup);
+
+  state.refresh = () => {
+    void readSettings().then((settings) => {
+      rewriter.updateSettings(settings);
+    });
+  };
 
   rewriteSoon();
 
