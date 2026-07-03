@@ -61,7 +61,7 @@ export const packageManagerPresets: readonly PackageManagerPreset[] = [
     label: "aube",
     installCommand: "aube install",
     addCommand: "aube add",
-    dlxCommand: "aubex",
+    dlxCommand: "aubx",
     createCommand: "aube create",
     ciCommand: "aube ci"
   }

@@ -3,6 +3,23 @@ import { defaultSettings, type PackagePickerSettings } from "./settings";
 import { rewriteShellSnippet } from "./commands";
 
 describe("rewriteShellSnippet", () => {
+  it("maps every bundled preset to its install, add, and package-runner commands", () => {
+    const expectations = [
+      ["npm", "npm install react", "npm install", "npx cowsay"],
+      ["pnpm", "pnpm add react", "pnpm install", "pnpm dlx cowsay"],
+      ["yarn", "yarn add react", "yarn install", "yarn dlx cowsay"],
+      ["bun", "bun add react", "bun install", "bunx cowsay"],
+      ["nub", "nub add react", "nub install", "nubx cowsay"],
+      ["aube", "aube add react", "aube install", "aubx cowsay"]
+    ] as const;
+
+    for (const [preset, addCommand, installCommand, runnerCommand] of expectations) {
+      expect(rewriteShellSnippet("npm install react", manager(preset))).toBe(addCommand);
+      expect(rewriteShellSnippet("npm install", manager(preset))).toBe(installCommand);
+      expect(rewriteShellSnippet("npx cowsay", manager(preset))).toBe(runnerCommand);
+    }
+  });
+
   it("rewrites npm install package commands to pnpm add by default", () => {
     expect(rewriteShellSnippet("npm install next react react-dom", defaultSettings)).toBe(
       "pnpm add next react react-dom"
@@ -41,7 +58,7 @@ describe("rewriteShellSnippet", () => {
 
   it("supports named custom-style presets like nub and aube", () => {
     expect(rewriteShellSnippet("npm install left-pad", manager("nub"))).toBe("nub add left-pad");
-    expect(rewriteShellSnippet("npx cowsay hello", manager("aube"))).toBe("aubex cowsay hello");
+    expect(rewriteShellSnippet("npx cowsay hello", manager("aube"))).toBe("aubx cowsay hello");
   });
 
   it("supports explicit custom templates", () => {
