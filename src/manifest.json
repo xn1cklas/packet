@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Package Picker",
+  "version": "0.1.0",
+  "description": "Rewrites npm and npx snippets to your preferred Node.js package manager.",
+  "minimum_chrome_version": "116",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "Package Picker",
+    "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}

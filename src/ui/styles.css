@@ -1,0 +1,123 @@
+:root {
+  color-scheme: light dark;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 14px;
+}
+
+body {
+  margin: 0;
+  min-width: 300px;
+  background: Canvas;
+  color: CanvasText;
+}
+
+.shell {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.options-shell {
+  max-width: 520px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+form {
+  display: grid;
+  gap: 12px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-weight: 560;
+}
+
+.toggle {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+input,
+select,
+button {
+  box-sizing: border-box;
+  border-radius: 7px;
+  font: inherit;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid color-mix(in srgb, CanvasText 22%, Canvas);
+  padding: 8px 10px;
+  background: Canvas;
+  color: CanvasText;
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #0f766e;
+}
+
+fieldset {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  border: 1px solid color-mix(in srgb, CanvasText 14%, Canvas);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+legend {
+  padding: 0 4px;
+  font-weight: 650;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 34px;
+}
+
+button {
+  border: 1px solid color-mix(in srgb, CanvasText 18%, Canvas);
+  padding: 7px 11px;
+  background: color-mix(in srgb, CanvasText 5%, Canvas);
+  color: CanvasText;
+  cursor: pointer;
+}
+
+button:hover {
+  background: color-mix(in srgb, CanvasText 10%, Canvas);
+}
+
+#status {
+  min-width: 56px;
+  color: #0f766e;
+  font-weight: 650;
+  text-align: right;
+}

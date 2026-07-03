@@ -1,0 +1,30 @@
+{
+  "name": "package-picker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chrome extension that rewrites npm and npx snippets to a preferred Node.js package manager.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "clean": "node scripts/clean.mjs",
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "qa": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "smoke": "npm run build && playwright test tests/e2e/extension.smoke.spec.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@playwright/test": "^1.54.1",
+    "@types/chrome": "^0.0.326",
+    "@types/node": "^26.1.0",
+    "esbuild": "^0.25.6",
+    "eslint": "^9.31.0",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.36.0",
+    "vitest": "^3.2.4"
+  }
+}
